@@ -29,13 +29,13 @@ foreach(R::find('category') as $c) {
 }
 
 // check if we added some tasks via 'add' button
-if (isset($_POST['add']) && !empty($_POST['task'])) {
-        $task = R::dispense('task');
-        $task->description = $_POST['task'];
+if (isset($_POST['add']) && !empty($_POST['timereport'])) {
+        $task = R::dispense('timereport');
+        $task->description = $_POST['timereport'];
 
         // check if we assigned anyone to the task
         if (isset($_POST['assign'])) {
-		     $task->ownPerson = R::batch('person',$_POST['assign']);	// own = one-to-many
+		     $task->ownEmployee = R::batch('employee',$_POST['assign']);	// own = one-to-many
 		}
 
         // check if we selected any categories for the task
@@ -48,15 +48,15 @@ if (isset($_POST['add']) && !empty($_POST['task'])) {
 
 // check if we marked any tasks as finished before pressing "done" button
 if (isset($_POST['trash']) && isset($_POST['done'])) {
-	R::trashAll( R::batch('task',$_POST['done']) );
+	R::trashAll( R::batch('timereport',$_POST['done']) );
 }
 
 
 // listing tasks
-foreach( R::find('task') as $t ) {
-	// get person assigned to task
+foreach( R::find('timereport') as $t ) {
+	// get employee assigned to task
 	$ppl = $tags = array();
-    foreach($t->ownPerson as $p) $ppl[] = $p->name;
+    foreach($t->ownEmployee as $p) $ppl[] = $p->name;
 
 	// get task tags
 	$tags = array();
@@ -67,7 +67,7 @@ foreach( R::find('task') as $t ) {
 		$listItem->copy()->injectAll( array(
 				'description' => $t->description,
 				'value' => $t->id,
-				'people' => implode(',', $ppl),
+				'employee' => implode(',', $ppl),
 				'tags' => implode(',', $tags)
 			) 
 		)
