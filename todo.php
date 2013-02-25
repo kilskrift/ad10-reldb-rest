@@ -22,7 +22,13 @@ foreach(R::find('category') as $c) {
 if (isset($_POST['add']) && !empty($_POST['task'])) {
         $task = R::dispense('task');
         $task->description = $_POST['task'];
-        R::store($task);
+
+        // check if we selected any categories for the task
+		if (isset($_POST['cats'])) {
+			$task->sharedCategory = R::batch('category',$_POST['cats']);
+		}
+
+        R::store($task);        
     }
 
 // check if we marked any tasks as finished before pressing "done" button
@@ -33,11 +39,16 @@ if (isset($_POST['trash']) && isset($_POST['done'])) {
 
 // listing tasks
 foreach( R::find('task') as $t ) {
+	// get task tags
+	$tags = array();
+    foreach($t->sharedCategory as $c) $tags[] = $c->label;
+  
 	$template->glue(
 		'listItems', 
 		$listItem->copy()->injectAll( array(
 				'description' => $t->description,
-				'value' => $t->id 
+				'value' => $t->id,
+				'tags' => implode(',', $tags)
 			) 
 		)
 	);
