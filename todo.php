@@ -33,9 +33,14 @@ if (isset($_POST['add']) && !empty($_POST['task'])) {
         $task = R::dispense('task');
         $task->description = $_POST['task'];
 
+        // check if we assigned anyone to the task
+        if (isset($_POST['assign'])) {
+		     $task->ownPerson = R::batch('person',$_POST['assign']);	// own = one-to-many
+		}
+
         // check if we selected any categories for the task
 		if (isset($_POST['cats'])) {
-			$task->sharedCategory = R::batch('category',$_POST['cats']);
+			$task->sharedCategory = R::batch('category',$_POST['cats']); // shared = many-to-many
 		}
 
         R::store($task);        
@@ -49,6 +54,10 @@ if (isset($_POST['trash']) && isset($_POST['done'])) {
 
 // listing tasks
 foreach( R::find('task') as $t ) {
+	// get person assigned to task
+	$ppl = $tags = array();
+    foreach($t->ownPerson as $p) $ppl[] = $p->name;
+
 	// get task tags
 	$tags = array();
     foreach($t->sharedCategory as $c) $tags[] = $c->label;
@@ -58,6 +67,7 @@ foreach( R::find('task') as $t ) {
 		$listItem->copy()->injectAll( array(
 				'description' => $t->description,
 				'value' => $t->id,
+				'people' => implode(',', $ppl),
 				'tags' => implode(',', $tags)
 			) 
 		)
