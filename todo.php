@@ -8,6 +8,15 @@ $template = new StampTE(file_get_contents('template.html'));
 list($listItem,$pOpt,$cOpt) = 
 	$template->collect('listItem|person|category');
 
+// populate categories selector
+foreach(R::find('category') as $c) {
+    $o = $cOpt->copy()->injectAll( array(
+			'value'=>$c->id,
+			'label'=>$c->label
+		)
+    );
+    $template->glue('categories',$o); 
+}
 
 // check if we added some tasks via 'add' button
 if (isset($_POST['add']) && !empty($_POST['task'])) {
@@ -20,6 +29,7 @@ if (isset($_POST['add']) && !empty($_POST['task'])) {
 if (isset($_POST['trash']) && isset($_POST['done'])) {
 	R::trashAll( R::batch('task',$_POST['done']) );
 }
+
 
 // listing tasks
 foreach( R::find('task') as $t ) {
