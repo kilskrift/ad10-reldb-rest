@@ -6,16 +6,16 @@ R::setup();
 $template = new StampTE(file_get_contents('template.html'));
 
 list($listItem,$pOpt,$cOpt) = 
-	$template->collect('listItem|person|category');
+	$template->collect('listItem|employee|category');
 
 // populate people selector
-foreach(R::find('person') as $p) {
+foreach(R::find('employee') as $p) {
     $o = $pOpt->copy()->injectAll( array(
 			'value'=>$p->id,
 			'label'=>$p->name
 		)
     );
-    $template->glue('people',$o); 
+    $template->glue('employee',$o); 
 }
 
 // populate categories selector
