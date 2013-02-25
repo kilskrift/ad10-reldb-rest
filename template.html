@@ -86,7 +86,7 @@
 		
 	}
 	
-	.taskButtons {
+	.timereportButtons {
 		width:250px;
 		margin-left:auto;
 		margin-right:auto;
@@ -162,7 +162,7 @@
 		box-shadow: 0 0 2px #000;			
 	}
 	
-	.taskSection {
+	.timereportSection {
 		padding-bottom:10px;
 		border: 0px white solid;
 		width:340px;
@@ -170,7 +170,7 @@
 		float:left;
 	}
 	
-	.taskSection .taskDescription input {
+	.timereportSection .timereportDescription input {
 		font-size:20px;
 		width:300px;
 		height:30px;
@@ -205,16 +205,16 @@
 	
 	<fieldset>
 	
-		<div class="taskSection">
+		<div class="timereportSection">
 			
-			<div class="taskDescription">
+			<div class="timereportDescription">
 				<label>
-					<span>Add new task:</span>
+					<span>Add new timereport:</span>
 				</label>
-				<input placeholder="Add your new task here..." type="text" name="task" value="" />
+				<input placeholder="Add your new timereport here..." type="text" name="timereport" value="" />
 			</div>
 			
-			<div class="taskButtons">
+			<div class="timereportButtons">
 				<input class="button add" type="submit" name="add" value="Add" />
 				<input class="button done" type="submit" name="trash" value="Done" />
 				
@@ -226,7 +226,7 @@
 			
 			<div class="selectionArea">
 				<label>
-					<span>Assign to:</span>
+					<span>Employee:</span>
 				</label>
 				<select name="assign[]" multiple="multiple">
 					<!-- cut:person -->
@@ -261,7 +261,10 @@
 			<br />
 			<div class="details">
 				Assigned to:
-				<span>#people#</span>
+				<span>#employee#</span>
+				<br />
+				Hours:
+				<span>#hours#</span>
 				<br />
 				Tags:
 				<span>#tags#</span>

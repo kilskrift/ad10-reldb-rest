@@ -18,7 +18,11 @@ foreach(array('Kurser','Tentor','Labbar') as $c) {
 	R::store($category);
 }
 
-// tasks are now timereports
+// tasks are now timereports w/description & time (hours)
 $timereport = R::dispense('timereport');
 $timereport->description = 'del ett';
+$timereport->hours = 1.0;
+
 R::store($timereport);
+
+?>
