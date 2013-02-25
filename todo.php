@@ -67,6 +67,7 @@ foreach( R::find('timereport') as $t ) {
 		$listItem->copy()->injectAll( array(
 				'description' => $t->description,
 				'value' => $t->id,
+				'hours' => $t->hours,
 				'employee' => implode(',', $ppl),
 				'tags' => implode(',', $tags)
 			) 
