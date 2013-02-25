@@ -20,8 +20,9 @@ foreach(array('Kurser','Tentor','Labbar') as $c) {
 
 // tasks are now timereports w/description & time (hours)
 $timereport = R::dispense('timereport');
-$timereport->description = 'del ett';
-$timereport->hours = 1.0;
+$timereport->description = 'Tutorial';
+$timereport->hours = 1;
+//$timereport->sharedEmployee = R::batch('employee','Kristian');
 
 R::store($timereport);
 
