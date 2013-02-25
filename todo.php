@@ -30,20 +30,21 @@ foreach(R::find('category') as $c) {
 
 // check if we added some tasks via 'add' button
 if (isset($_POST['add']) && !empty($_POST['timereport'])) {
-        $task = R::dispense('timereport');
-        $task->description = $_POST['timereport'];
+        $timereport = R::dispense('timereport');
+        $timereport->description = $_POST['timereport'];
+        $timereport->hours = $_POST['hours'];
 
         // check if we assigned anyone to the task
         if (isset($_POST['assign'])) {
-		     $task->ownEmployee = R::batch('employee',$_POST['assign']);	// own = one-to-many
+		     $timereport->sharedEmployee = R::batch('employee',$_POST['assign']);	// own = one-to-many
 		}
 
         // check if we selected any categories for the task
 		if (isset($_POST['cats'])) {
-			$task->sharedCategory = R::batch('category',$_POST['cats']); // shared = many-to-many
+			$timereport->sharedCategory = R::batch('category',$_POST['cats']); // shared = many-to-many
 		}
 
-        R::store($task);        
+        R::store($timereport);        
     }
 
 // check if we marked any tasks as finished before pressing "done" button
@@ -55,8 +56,8 @@ if (isset($_POST['trash']) && isset($_POST['done'])) {
 // listing tasks
 foreach( R::find('timereport') as $t ) {
 	// get employee assigned to task
-	$ppl = $tags = array();
-    foreach($t->ownEmployee as $p) $ppl[] = $p->name;
+	$ppl = array();
+    foreach($t->sharedEmployee as $p) $ppl[] = $p->name;
 
 	// get task tags
 	$tags = array();
