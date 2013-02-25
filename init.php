@@ -3,17 +3,22 @@
 require('rb.php');
 R::setup();
 R::nuke();
-foreach(array('Joe','Pete','Lenny') as $p) {
-	$person = R::dispense('person');
-	$person->name = $p;
-	R::store($person);
+
+// new employees
+foreach(array('Kristian','Josefina','Sanna') as $p) {
+	$employee = R::dispense('employee');
+	$employee->name = $p;
+	R::store($employee);
 }
 
-foreach(array('Feature','Bug','Research') as $c) {
+// new categories
+foreach(array('Kurser','Tentor','Labbar') as $c) {
 	$category = R::dispense('category');
 	$category->label = $c;
 	R::store($category);
 }
-$task = R::dispense('task');
-$task->description = 'Deploy';
-R::store($task);
+
+// tasks are now timereports
+$timereport = R::dispense('timereport');
+$timereport->description = 'del ett';
+R::store($timereport);
