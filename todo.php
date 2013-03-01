@@ -76,8 +76,17 @@ foreach( R::find('timereport') as $t ) {
 	);
 }
 
+// sum up hours total
+foreach( R::find('employee') as $e) {
+	$myReports = R::related( $e, 'timereport');
+
+	$hours = 0;
+	foreach($myReports as $m ) {
+		$hours += $m->hours;
+	}
+//	echo $hours;
+//	echo "<br />";
+}
+
 echo $template;
-
-
-
 ?>
